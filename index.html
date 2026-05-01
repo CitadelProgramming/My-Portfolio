@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moses Zechariah | Project Citadel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #ffd700;
+            --gold-dark: #e6b800;
+            --blue: #020617;
+            --glass: rgba(15, 23, 42, 0.65);
+            --glass-light: rgba(255, 255, 255, 0.08);
+            --text: #e2e8f0;
+            --sub: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at 30% 20%, rgba(255, 215, 0, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(0, 100, 255, 0.06) 0%, transparent 50%),
+                        #020617;
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.12), transparent);
+            filter: blur(80px);
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        nav {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(2, 6, 23, 0.75);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.15);
+            z-index: 1000;
+            transition: all 0.4s ease;
+        }
+
+        nav.scrolled {
+            padding: 14px 8%;
+            background: rgba(2, 6, 23, 0.92);
+        }
+
+        nav h2 {
+            color: var(--gold);
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .nav-links a {
+            color: var(--text);
+            margin: 0 18px;
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        header {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding-top: 80px; /* Extra space to avoid navbar overlap */
+        }
+
+        .hero-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .profile-container {
+            position: relative;
+            width: 260px;
+            height: 260px;
+            margin: 0 auto;
+        }
+
+        .profile {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 5px solid var(--gold);
+            box-shadow: 0 0 70px rgba(255, 215, 0, 0.6),
+                        inset 0 0 40px rgba(255, 255, 255, 0.2);
+            object-fit: cover;
+        }
+
+        .profile-glow {
+            position: absolute;
+            top: -25px;
+            left: -25px;
+            right: -25px;
+            bottom: -25px;
+            background: radial-gradient(circle, rgba(255,215,0,0.28), transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+            animation: pulse-glow 7s infinite ease-in-out;
+        }
+
+        .hero-text h1 {
+            font-size: 3.8rem;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: -2px;
+            margin-bottom: 12px;
+        }
+
+        .tagline {
+            font-size: 1.35rem;
+            color: var(--sub);
+            margin-bottom: 20px;
+        }
+
+        .typing {
+            font-size: 1.45rem;
+            color: var(--gold);
+            font-weight: 500;
+            min-height: 48px;
+        }
+
+        .btn {
+            margin-top: 30px;
+            padding: 16px 42px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #ffd700, #ffae00);
+            color: #020617;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.5);
+        }
+
+        section {
+            padding: 140px 10% 100px;
+            position: relative;
+        }
+
+        h2 {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 60px;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+            bottom: -12px;
+            left: 20%;
+        }
+
+        .glass-card {
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(24px);
+            border-radius: 24px;
+            padding: 32px;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-20px);
+            box-shadow: 0 30px 60px rgba(255, 215, 0, 0.15);
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .stat {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 40px 25px;
+            text-align: center;
+        }
+
+        .stat i {
+            font-size: 2.8rem;
+            color: var(--gold);
+            margin-bottom: 16px;
+        }
+
+        .stat h3 {
+            color: var(--gold);
+            font-size: 3.2rem;
+            font-weight: 700;
+        }
+
+        /* Projects */
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .project-card .glass-card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-icon {
+            font-size: 2.8rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+
+        /* Skills */
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .skill-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--glass-light);
+            backdrop-filter: blur(12px);
+            padding: 14px 26px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.08);
+            font-weight: 500;
+            transition: all 0.4s ease;
+        }
+
+        .skill-pill:hover {
+            background: var(--gold);
+            color: #020617;
+            transform: translateY(-6px) scale(1.05);
+        }
+
+        .skill-pill i {
+            font-size: 1.4rem;
+        }
+
+        /* Contact & Footer */
+        #contact .glass-card {
+            max-width: 620px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .socials a {
+            font-size: 2.3rem;
+            color: var(--text);
+            margin: 0 18px;
+            transition: all 0.3s;
+        }
+
+        .socials a:hover {
+            color: var(--gold);
+            transform: translateY(-8px) scale(1.2);
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px 20px 40px;
+            color: var(--sub);
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            color: var(--sub);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.65; }
+            50% { opacity: 0.95; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(12px); }
+        }
+
+        @media (max-width: 968px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+            h1 { font-size: 3.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="orb" style="width: 620px; height: 620px; top: 10%; left: 10%;"></div>
+    <div class="orb" style="width: 480px; height: 480px; bottom: 15%; right: 12%; background: radial-gradient(circle, rgba(100, 150, 255, 0.1), transparent);"></div>
+
+    <nav id="navbar">
+        <h2>MZ</h2>
+        <div class="nav-links">
+            <a href="#">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <header>
+        <div class="hero-content">
+            <!-- Profile -->
+            <div class="profile-container" data-aos="zoom-in">
+                <div class="profile-glow"></div>
+                <img src="moses.jpg" alt="Moses Zechariah" class="profile">
+            </div>
+
+            <!-- About Me Text -->
+            <div class="hero-text" data-aos="fade-up">
+                <h1>Moses Zechariah</h1>
+                <div class="tagline">Project Citadel</div>
+                <div class="typing" id="typing"></div>
+                
+                <p style="margin-top: 24px; color: var(--sub); font-size: 1.15rem;">
+                    I am a passionate Backend Engineer specializing in building secure, scalable, and high-performance systems. 
+                    With a strong focus on clean architecture and efficient code, I turn complex challenges into robust digital solutions.
+                </p>
+
+                <button class="btn" onclick="scrollToSection('projects')">
+                    View My Work
+                </button>
+            </div>
+        </div>
+
+        <div class="scroll-hint">↓ Scroll to discover</div>
+    </header>
+
+    <section id="stats" data-aos="fade-up">
+        <h2>Stats</h2>
+        <div class="stats">
+            <div class="stat glass-card">
+                <i class="fas fa-folder-open"></i>
+                <h3 id="p">0</h3>
+                <p>Projects Completed</p>
+            </div>
+            <div class="stat glass-card">
+                <i class="fas fa-graduation-cap"></i>
+                <h3 id="y">0</h3>
+                <p>Years Learning</p>
+            </div>
+            <div class="stat glass-card">
+                <i class="fas fa-mobile-alt"></i>
+                <h3 id="a">0</h3>
+                <p>Applications Built</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" data-aos="fade-up">
+        <h2>Featured Projects</h2>
+        <div class="projects">
+            <div class="project-card">
+                <div class="glass-card">
+                    <i class="fas fa-university project-icon"></i>
+                    <h3>Faculty Management System</h3>
+                    <p>Java + MySQL • Comprehensive backend system for academic operations.</p>
+                    <a href="https://github.com/CitadelProgramming" target="_blank" style="color:var(--gold);margin-top:20px;display:inline-block;">View on GitHub →</a>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="glass-card">
+                    <i class="fas fa-comments project-icon"></i>
+                    <h3>Real-time Chat Application</h3>
+                    <p>Java Sockets • Low-latency multi-client messaging platform.</p>
+                    <a href="https://github.com/CitadelProgramming" target="_blank" style="color:var(--gold);margin-top:20px;display:inline-block;">View on GitHub →</a>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <div class="glass-card">
+                    <i class="fas fa-question-circle project-icon"></i>
+                    <h3>Interactive Quiz Platform</h3>
+                    <p>Kotlin • Engaging mobile-first quiz application.</p>
+                    <a href="https://github.com/CitadelProgramming" target="_blank" style="color:var(--gold);margin-top:20px;display:inline-block;">View on GitHub →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section data-aos="fade-up">
+        <h2>Skills & Technologies</h2>
+        <div class="skills">
+            <div class="skill-pill"><i class="fab fa-java"></i> Java</div>
+            <div class="skill-pill"><i class="fas fa-leaf"></i> Spring Boot</div>
+            <div class="skill-pill"><i class="fas fa-database"></i> MySQL</div>
+            <div class="skill-pill"><i class="fab fa-js"></i> JavaScript</div>
+            <div class="skill-pill"><i class="fab fa-html5"></i> HTML5</div>
+            <div class="skill-pill"><i class="fab fa-css3"></i> CSS3</div>
+            <div class="skill-pill"><i class="fab fa-kotlin"></i> Kotlin</div>
+            <div class="skill-pill"><i class="fas fa-c"></i> C / C++</div>
+            <div class="skill-pill"><i class="fab fa-python"></i> Python</div>
+            <div class="skill-pill"><i class="fab fa-cuttlefish"></i> C#</div>
+            <div class="skill-pill"><i class="fab fa-swift"></i> Swift</div>
+        </div>
+    </section>
+
+    <section id="contact" data-aos="fade-up">
+        <h2>Let's Connect</h2>
+        <div class="glass-card">
+            <p><strong>Email:</strong> moseszech89@gmail.com</p>
+            <p><strong>Phone:</strong> 09035783766</p>
+            
+            <div class="socials" style="margin-top:40px;">
+                <a href="https://github.com/CitadelProgramming" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/moseszechariah" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://x.com/Project_citadel" target="_blank"><i class="fab fa-x-twitter"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        © 2026 Project Citadel
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+
+        // Navbar scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 80);
+        });
+
+        // Typing effect
+        const texts = ["Backend Engineer", "Java Specialist", "System Architect", "Problem Solver"];
+        let textIndex = 0, charIndex = 0, isDeleting = false;
+        const typingEl = document.getElementById("typing");
+
+        function typeEffect() {
+            const current = texts[textIndex];
+            if (isDeleting) {
+                typingEl.textContent = current.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingEl.textContent = current.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let speed = isDeleting ? 40 : 70;
+            if (!isDeleting && charIndex === current.length) {
+                speed = 1500;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+            }
+            setTimeout(typeEffect, speed);
+        }
+        setTimeout(typeEffect, 800);
+
+        // Counters
+        function animateCounter(id, target) {
+            let count = 0;
+            const inc = Math.ceil(target / 35);
+            const el = document.getElementById(id);
+            const timer = setInterval(() => {
+                count += inc;
+                if (count >= target) {
+                    count = target;
+                    clearInterval(timer);
+                }
+                el.textContent = count;
+            }, 40);
+        }
+
+        function triggerCounters() {
+            const stats = document.getElementById('stats');
+            if (stats.getBoundingClientRect().top < window.innerHeight * 0.8) {
+                animateCounter('p', 12);
+                animateCounter('y', 7);
+                animateCounter('a', 20);
+                window.removeEventListener('scroll', triggerCounters);
+            }
+        }
+        window.addEventListener('scroll', triggerCounters);
+        setTimeout(triggerCounters, 1500);
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
